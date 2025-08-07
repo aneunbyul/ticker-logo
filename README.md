@@ -31,10 +31,42 @@ ticker-logo/
    - 로컬에 저장 후 이미지 반환
    - 다음 요청부터는 캐시에서 제공
 
-### 이미지 다운로드 프로세스
+##  스크립트 실행 명령어
 
-1. **기존 이미지 확인**: `public/images/` 폴더의 기존 파일 스캔
-2. **필터링**: 아직 다운로드되지 않은 티커만 선택
-3. **다운로드**: Toss Invest API에서 순차적으로 다운로드
-4. **저장**: 성공한 이미지를 `public/images/`에 저장
-5. **업데이트**: 성공한 티커를 목록에서 제거하
+### 필수 패키지 설치
+
+```bash
+npm install --save-dev ts-node
+```
+
+### KOSPI 이미지 다운로드
+
+```bash
+npm run download-kospi
+```
+
+또는 직접 실행:
+
+```bash
+npx ts-node scripts/download-kospi-images.ts
+```
+
+### NASDAQ 이미지 다운로드
+
+```bash
+npm run download-nasdaq
+```
+
+또는 직접 실행:
+
+```bash
+npx ts-node scripts/download-nasdaq-images.ts
+```
+
+### 스크립트 특징
+
+- **점진적 다운로드**: 성공한 티커는 배열에서 제거되어 다음 실행 시 재시도하지 않음
+- **서버 부하 방지**: 요청 간 100ms 지연으로 서버 부하 최소화
+- **에러 처리**: 실패한 다운로드는 기록하고 다음 실행 시 재시도
+- **진행률 표시**: 실시간 진행률과 성공/실패 개수 표시
+```
