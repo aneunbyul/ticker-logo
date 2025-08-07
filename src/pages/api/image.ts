@@ -41,8 +41,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(`외부 응답 상태: ${response.status} ${response.statusText}`);
     
     if (!response.ok) {
-      console.log(`외부 이미지 다운로드 실패: ${response.status}`);
-      return res.status(404).json({ error: '이미지를 찾을 수 없습니다.' });
+      console.log(`외부 이미지 다운로드 실패: ${response.status}, 빈 값 반환`);
+      // 빈 값 반환
+      return res.status(204).end();
     }
 
     const imageBuffer = await response.arrayBuffer();
@@ -70,6 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
   } catch (error) {
     console.error('이미지 다운로드 실패:', error);
-    return res.status(500).json({ error: '이미지 다운로드에 실패했습니다.' });
+    console.log('빈 값 반환');
+    return res.status(204).end();
   }
-} 
+}
